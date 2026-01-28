@@ -1,0 +1,28 @@
+rules:
+  - id: web_login_failures
+    source: web
+    where:
+      status: 401
+      path_contains: "/login"
+    group_by: ip
+    threshold: 4
+    severity: high
+
+  - id: web_sql_injection_attempt
+    source: web
+    where:
+      path_contains: "DROP TABLE"
+    group_by: ip
+    threshold: 1
+    severity: high
+
+  - id: ssh_failed_logins
+    source: auth
+    where:
+      message_contains: "Failed password"
+    group_by: ip
+    threshold: 3
+    severity: high
+    escalate_on:
+      message_contains: "Accepted password"
+      severity: critical

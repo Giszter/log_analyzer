@@ -33,15 +33,20 @@ The project focuses on **clarity, determinism, and testability** rather than com
 ---
 
 ## Usage
+example
+bash
+`python main.py webserver.log auth.log`
 
-```bash
-python main.py webserver.log auth.log
 Optional custom rules file:
 python main.py webserver.log auth.log --rules custom_rules.yml
 If --rules is not provided, the tool automatically falls back to ./rules.yml if present.
-Rules Configuration
+
+---
+
+## Rules Configuration
 Rules are defined declaratively in YAML:
 rules:
+```
   - id: ssh_failed_logins
     source: auth
     where:
@@ -52,9 +57,12 @@ rules:
     escalate_on:
       message_contains: "Accepted password"
       severity: critical
-Rule Concepts
+```
+### Rule Concepts
+```
 source — log source (web or auth)
 where — matching conditions
 group_by — aggregation key (e.g. IP)
 threshold — number of occurrences required
 escalate_on — optional escalation condition
+```
